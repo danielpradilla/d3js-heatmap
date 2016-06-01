@@ -13,7 +13,7 @@ var day = d3.time.format("%w"),
 var color = d3.scale.linear().range(["white", '#002b53'])
     .domain([0, 1])
     
-var svg = d3.select(".calender-map").selectAll("svg")
+var svg = d3.select(".calendar-map").selectAll("svg")
     .data(d3.range(2011, 2015))
   .enter().append("svg")
     .attr("width", '100%')
@@ -80,10 +80,12 @@ d3.csv("data.csv", function(error, csv) {
     .key(function(d) { return d.Date; })
     .rollup(function(d) { return  Math.sqrt(d[0].Comparison_Type / Comparison_Type_Max); })
     .map(csv);
-	
+
+
   rect.filter(function(d) { return d in data; })
       .attr("fill", function(d) { return color(data[d]); })
-	  .attr("data-title", function(d) { return "value : "+Math.round(data[d]*100)});   
+	  // .attr("data-title", function(d) { return "value : "+Math.round(data[d]*100)});   
+    .attr("data-title", function(d) { return "value : "+Math.round(Math.pow(data[d], 2) * Comparison_Type_Max); });   
 	$("rect").tooltip({container: 'body', html: true, placement:'top'}); 
 });
 
